@@ -20,12 +20,11 @@ import {
 } from "@expo/vector-icons";
 import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
-const Home = () => {
+const Home = ({ toMap }) => {
   const user = useSelector((state) => state.login.user);
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <Box safeAreaTop bg="violet.600" />
       <Center height={200} bg="green.700">
         <HStack
           px="1"
@@ -168,7 +167,7 @@ const Home = () => {
           </Stack>
         </Box>
       </ScrollView>
-      <Footer />
+      <Footer selected={0} toMap={toMap} />
     </NativeBaseProvider>
   );
 };

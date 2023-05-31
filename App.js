@@ -8,7 +8,9 @@ import {
 import Register from "./app/Register";
 import Login from "./app/Login";
 import Home from "./app/Home";
+import Map from "./app/Map";
 import { useSelector } from "react-redux";
+import { enableLatestRenderer } from "react-native-maps";
 
 const GetStartedScreen = () => {
   const nav = useNavigation();
@@ -35,9 +37,14 @@ const LoginScreen = () => {
 };
 const HomeScreen = () => {
   const nav = useNavigation();
-  return <Home />;
+  return <Home toMap={() => nav.navigate("Map")} />;
+};
+const MapScreen = () => {
+  const nav = useNavigation();
+  return <Map />;
 };
 const Stack = createStackNavigator();
+enableLatestRenderer();
 export default function App() {
   const loggedIn = useSelector((state) => state.login.loggedIn);
   return (
@@ -55,6 +62,7 @@ export default function App() {
           options={options}
         />
         <Stack.Screen name="Login" component={LoginScreen} options={options} />
+        <Stack.Screen name="Map" component={MapScreen} options={options} />
       </Stack.Navigator>
     </NavigationContainer>
   );
