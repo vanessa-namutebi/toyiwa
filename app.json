@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Toyiwa",
+    "slug": "Toyiwa",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
