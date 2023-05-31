@@ -1,5 +1,12 @@
 import React from "react";
-import { StatusBar, Button, Image, Container, Text, Center } from "native-base";
+import {
+  StatusBar,
+  Button,
+  Image,
+  AspectRatio,
+  Text,
+  Center,
+} from "native-base";
 import { NativeBaseProvider, Heading, FormControl, Box } from "native-base";
 
 export default function GetStarted({ get_started, login }) {
@@ -7,7 +14,16 @@ export default function GetStarted({ get_started, login }) {
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />
 
-      <Box bg="green.700" width={"100%"} height={"50%"}></Box>
+      <Box bg="green.700" width={"100%"} height={"50%"}>
+        <Center>
+          <Image
+            source={require("../assets/10181-ai.png")}
+            width={"98%"}
+            height={"90%"}
+            alt="Image"
+          />
+        </Center>
+      </Box>
 
       <FormControl height={110} width={"90%"} alignSelf={"center"} mt={"20"}>
         <Button

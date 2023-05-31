@@ -13,33 +13,79 @@ import {
   ScrollView,
   Pressable,
   Actionsheet,
+  Toast,
+  Divider,
+  Spinner,
 } from "native-base";
+import axios from "axios";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-function Register() {
+import { useSelector } from "react-redux";
+// import { config } from "dotenv";
+// config();
+const apiKey = "http://192.168.1.8:3000/api";
+
+function Register({ login }) {
+  const loggedIn = useSelector((state) => state.login.loggedIn);
   const [isSelect, setIsSelect] = useState(false);
-  //vlues
+  //values
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [conirm, setConfirm] = useState("");
-
+  const [confirm, setConfirm] = useState("");
+  const [err, setErr] = useState("");
+  const [isSubmmiting, setIsSubmitting] = useState(false);
   const showSelectImage = useCallback(() => {
     setIsSelect(!isSelect);
   });
   const handleFormChange = useCallback((setState, value) => {
     setState(value);
   });
-  const handleSubmit = () => {
-    const user = {
-      firstname: fname,
-      last_name: lname,
-      email: email,
-      phone_number: phoneNumber,
-      password: password,
+  const handleSubmit = async () => {
+    if (!fname || !lname || !email || !password || !confirm) {
+      showToast("Please fill all the required fields!", "red.500");
+      return;
+    }
+    if (confirm !== password) {
+      showToast("Passwords do not match!", "red.500");
+      return;
+    }
+    setIsSubmitting(true);
+    await axios
+      .post(`${apiKey}/register`, {
+        first_name: fname,
+        last_name: lname,
+        email: email,
+        phone_number: phoneNumber,
+        password: password,
+      })
+      .then((response) => {
+        console.log(response.data.success);
+        setIsSubmitting(false);
+        if (response.data.success === true) {
+          showToast(response.data.message, "green.500");
+          login();
+        } else {
+          showToast(response.data.message, "red.500");
+        }
+      })
+      .catch((err) => {
+        setIsSubmitting(false);
+        showToast(err.message, "red.500");
+      });
+  };
+
+  const showToast = (msg, color) => {
+    Toast.show({
+      title: msg,
+      placement: "top",
+      backgroundColor: `${color}`,
+      accessibilityAnnouncement: "Error",
+    });
+    const HideToast = () => {
+      Toast.closeAll();
     };
-    console.log(user);
   };
 
   return (
@@ -162,7 +208,7 @@ function Register() {
           <VStack m={2}>
             <FormControl.Label>Confirm Password</FormControl.Label>
             <Input
-              value={conirm}
+              value={confirm}
               onChangeText={(value) => handleFormChange(setConfirm, value)}
               type="password"
               placeholder="Confirm Password"
@@ -192,14 +238,29 @@ function Register() {
               }
             />
           </VStack>
-          <Button m={5} bg="green.700" onPress={handleSubmit}>
+          <Button
+            m={5}
+            bg="green.700"
+            onPress={handleSubmit}
+            isLoading={isSubmmiting}
+            isDisabled={isSubmmiting}
+          >
             <Heading color="white">Sign Up</Heading>
           </Button>
         </FormControl>
       </ScrollView>
+      {/* <Actionsheet isOpen={isSubmmiting}>
+        <Actionsheet.Content height={200}>
+          <Heading>Creating Account</Heading>
+
+          <Actionsheet.Item>
+            <Spinner size={"lg"} />
+          </Actionsheet.Item>
+        </Actionsheet.Content>
+      </Actionsheet> */}
       <Actionsheet isOpen={isSelect} onClose={showSelectImage}>
         <Actionsheet.Content>
-          <Heading>Select profile image</Heading>
+          <Heading>Creating Account</Heading>
 
           <Actionsheet.Item
             startIcon={

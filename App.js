@@ -7,6 +7,9 @@ import {
 } from "@react-navigation/stack";
 import Register from "./app/Register";
 import Login from "./app/Login";
+import Home from "./app/Home";
+import { useSelector } from "react-redux";
+
 const GetStartedScreen = () => {
   const nav = useNavigation();
   return (
@@ -18,20 +21,32 @@ const GetStartedScreen = () => {
 };
 
 const RegisterScreen = () => {
-  return <Register />;
+  const nav = useNavigation();
+  return <Register login={() => nav.navigate("Login")} />;
 };
 const LoginScreen = () => {
   const nav = useNavigation();
-  return <Login get_started={() => nav.navigate("Register")} />;
+  return (
+    <Login
+      get_started={() => nav.navigate("Register")}
+      backHome={() => nav.popToTop()}
+    />
+  );
+};
+const HomeScreen = () => {
+  const nav = useNavigation();
+  return <Home />;
 };
 const Stack = createStackNavigator();
 export default function App() {
+  const loggedIn = useSelector((state) => state.login.loggedIn);
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        {/* <Stack.Screen name="Home" component={HomeScreen} options={options} /> */}
         <Stack.Screen
           name="Get Started"
-          component={GetStartedScreen}
+          component={loggedIn ? HomeScreen : GetStartedScreen}
           options={options}
         />
         <Stack.Screen
