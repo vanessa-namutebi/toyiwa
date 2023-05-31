@@ -2,14 +2,14 @@ import React from "react";
 import { StatusBar, Button, Image, Container, Text, Center } from "native-base";
 import { NativeBaseProvider, Heading, FormControl, Box } from "native-base";
 
-export default function GetStarted() {
+export default function GetStarted({ get_started, login }) {
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />
 
       <Box bg="green.700" width={"100%"} height={"50%"}></Box>
 
-      <FormControl height={110} width={"90%"} alignSelf={"center"} mt={"10"}>
+      <FormControl height={110} width={"90%"} alignSelf={"center"} mt={"20"}>
         <Button
           m={2}
           height={"1/2"}
@@ -17,6 +17,7 @@ export default function GetStarted() {
           bg="green.700"
           alignSelf={"center"}
           width={"100%"}
+          onPress={get_started}
         >
           <Heading color="white">Get Started</Heading>
         </Button>
@@ -29,8 +30,9 @@ export default function GetStarted() {
           borderWidth="2"
           alignSelf={"center"}
           width={"100%"}
+          onPress={login}
         >
-          <Heading color="green.700">Get Started</Heading>
+          <Heading color="green.700">Login</Heading>
         </Button>
       </FormControl>
     </NativeBaseProvider>
