@@ -2,6 +2,8 @@
 #
 .DS_Store
 
+
+.vscode
 # Xcode
 #
 build/
@@ -53,3 +55,7 @@ yarn-error.log
 .expo/
 web-build/
 dist/
+
+#enc variavbles
+.env
+eas.json

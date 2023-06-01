@@ -1,5 +1,6 @@
-import React, { memo } from "react";
-import { StatusBar, Button, Image, Container, Text, Center } from "native-base";
+import React, { memo, useState } from "react";
+import { Button, Image, Container, Text, Center } from "native-base";
+import { StatusBar } from "expo-status-bar";
 import {
   NativeBaseProvider,
   Heading,
@@ -11,8 +12,10 @@ import {
   VStack,
   Stack,
   ScrollView,
-  View,
+  Actionsheet,
 } from "native-base";
+import { View } from "react-native";
+
 import {
   MaterialIcons,
   Ionicons,
@@ -20,9 +23,13 @@ import {
 } from "@expo/vector-icons";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 const Map = ({ back }) => {
+  const [openOverlay, setOpen] = useState(true);
+  const showOverLay = () => {
+    setOpen(!openOverlay);
+  };
   return (
     <NativeBaseProvider>
-      <StatusBar backgroundColor={"transparent"} barStyle={"dark-content"} />
+      <StatusBar backgroundColor="transparent" style={"dark-content"} />
       <View width={"100%"} height={"100%"}>
         <MapView
           showsCompass={true}
@@ -36,15 +43,26 @@ const Map = ({ back }) => {
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
           }}
-        >
-          <Icon
-            as={Ionicons}
-            name="arrow-back-circle"
-            size={100}
-            color="green.700"
-          />
-        </MapView>
+        ></MapView>
       </View>
+      <Actionsheet isOpen={openOverlay} onClose={showOverLay}>
+        <Actionsheet.Content borderTopRadius="0">
+          <Box w="100%" h={60} px={4} justifyContent="center">
+            <Text
+              fontSize="16"
+              color="gray.500"
+              _dark={{
+                color: "gray.300",
+              }}
+            >
+              Track Location
+            </Text>
+          </Box>
+          <Actionsheet.Item>Delete</Actionsheet.Item>
+          <Actionsheet.Item>Share</Actionsheet.Item>
+          <Actionsheet.Item>Play</Actionsheet.Item>
+        </Actionsheet.Content>
+      </Actionsheet>
     </NativeBaseProvider>
   );
 };

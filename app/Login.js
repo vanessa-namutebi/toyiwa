@@ -20,20 +20,21 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../state/LoginSlice";
-const apiKey = "http://192.168.1.8:3000/api";
+import { dotenv, config } from "dotenv";
+import getApi from "./getApi";
+
+const apiKey = getApi();
 const Login = ({ get_started, backHome }) => {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const dispatch = useDispatch();
   const [loggingIn, setLoggingIn] = useState(false);
+
   const handleLogin = () => {
     if (!credentials.email) {
-      showToast("Email is required!");
+      showToast("Email address is required!");
       return;
     }
-    if (!credentials.email) {
+    if (!credentials.password) {
       showToast("Password is required!");
       return;
     }
@@ -56,6 +57,7 @@ const Login = ({ get_started, backHome }) => {
       });
     setLoggingIn(false);
   };
+
   const showToast = (msg) => {
     Toast.show({
       title: msg,
@@ -63,10 +65,20 @@ const Login = ({ get_started, backHome }) => {
       placement: "top",
     });
   };
+
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />
-      <Box width={"100%"} height={"40%"}></Box>
+      <Center width={"100%"} height={"40%"}>
+        <Center>
+          <Image
+            source={require("../assets/logo.png")}
+            alt="Logo"
+            width={200}
+            height={200}
+          />
+        </Center>
+      </Center>
       <FormControl m={2} alignSelf={"center"}>
         <Input
           value={credentials.email}

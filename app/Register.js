@@ -20,9 +20,9 @@ import {
 import axios from "axios";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
-// import { config } from "dotenv";
-// config();
-const apiKey = "http://192.168.1.8:3000/api";
+import getApi from "./getApi";
+
+const apiKey = getApi();
 
 function Register({ login }) {
   const loggedIn = useSelector((state) => state.login.loggedIn);
@@ -43,7 +43,7 @@ function Register({ login }) {
     setState(value);
   });
   const handleSubmit = async () => {
-    if (!fname || !lname || !email || !password || !confirm) {
+    if (!fname || !lname || !email || !phoneNumber || !password || !confirm) {
       showToast("Please fill all the required fields!", "red.500");
       return;
     }
@@ -61,7 +61,6 @@ function Register({ login }) {
         password: password,
       })
       .then((response) => {
-        console.log(response.data.success);
         setIsSubmitting(false);
         if (response.data.success === true) {
           showToast(response.data.message, "green.500");
@@ -83,9 +82,6 @@ function Register({ login }) {
       backgroundColor: `${color}`,
       accessibilityAnnouncement: "Error",
     });
-    const HideToast = () => {
-      Toast.closeAll();
-    };
   };
 
   return (
