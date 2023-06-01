@@ -26,6 +26,7 @@ import getApi from "./getApi";
 const apiKey = getApi();
 const Login = ({ get_started, backHome }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+
   const dispatch = useDispatch();
   const [loggingIn, setLoggingIn] = useState(false);
 
@@ -104,6 +105,7 @@ const Login = ({ get_started, backHome }) => {
           }
         />
         <Input
+          type={"password"}
           value={credentials.password}
           onChangeText={(value) =>
             setCredentials({
@@ -142,6 +144,7 @@ const Login = ({ get_started, backHome }) => {
           bg="green.700"
           onPress={handleLogin}
           isLoading={loggingIn}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="white">Login</Heading>
         </Button>
@@ -156,6 +159,7 @@ const Login = ({ get_started, backHome }) => {
           borderWidth={2}
           borderColor={"green.700"}
           onPress={get_started}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="green.700">Sign Up</Heading>
         </Button>

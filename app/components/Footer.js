@@ -36,15 +36,12 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           py="3"
           flex={1}
           onPress={toHome}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
             <Icon
               mb="1"
-              as={
-                <MaterialIcons
-                  name={selected === 0 ? "dashboard" : "home-outline"}
-                />
-              }
+              as={<MaterialIcons name={"dashboard"} />}
               color="green.700"
               size={30}
             />
@@ -59,6 +56,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           py="2"
           flex={1}
           onPress={toMap}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
             <Icon
@@ -78,20 +76,25 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           py="2"
           flex={1}
           onPress={toHome}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
             <Icon
               mb="1"
               as={
                 <MaterialCommunityIcons
-                  name={selected === 2 ? "cart" : "cart-outline"}
+                  name={
+                    selected === 2
+                      ? "contactless-payment"
+                      : "contactless-payment"
+                  }
                 />
               }
               color="green.700"
               size={30}
             />
             <Text color="green.700" fontSize="12" fontWeight={"600"}>
-              Cart
+              Payments
             </Text>
           </Center>
         </Pressable>
@@ -101,6 +104,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           py="2"
           flex={1}
           onPress={toAccount}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
             <Icon

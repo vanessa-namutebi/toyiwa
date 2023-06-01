@@ -9,6 +9,8 @@ import Register from "./app/Register";
 import Login from "./app/Login";
 import Home from "./app/Home";
 import Map from "./app/Map";
+import Profile from "./app/Profile";
+import PickUp from "./app/components/PickUp";
 import { useSelector } from "react-redux";
 import { enableLatestRenderer } from "react-native-maps";
 
@@ -37,11 +39,25 @@ const LoginScreen = () => {
 };
 const HomeScreen = () => {
   const nav = useNavigation();
-  return <Home toMap={() => nav.navigate("Map")} />;
+  return (
+    <Home
+      toMap={() => nav.navigate("Map")}
+      toProfile={() => nav.navigate("Profile")}
+      pickup={() => nav.navigate("Pick up")}
+    />
+  );
 };
 const MapScreen = () => {
   const nav = useNavigation();
   return <Map />;
+};
+const ProfileScreen = () => {
+  const nav = useNavigation();
+  return <Profile toHome={() => nav.navigate("Get Started")} />;
+};
+const PickUpScreen = () => {
+  const nav = useNavigation();
+  return <PickUp back={() => nav.goBack()} />;
 };
 const Stack = createStackNavigator();
 enableLatestRenderer();
@@ -63,6 +79,17 @@ export default function App() {
         />
         <Stack.Screen name="Login" component={LoginScreen} options={options} />
         <Stack.Screen name="Map" component={MapScreen} options={options} />
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={options}
+        />
+        {/* other Screens */}
+        <Stack.Screen
+          name="Pick up"
+          component={PickUpScreen}
+          options={options}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

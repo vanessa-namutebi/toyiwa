@@ -240,6 +240,7 @@ function Register({ login }) {
             onPress={handleSubmit}
             isLoading={isSubmmiting}
             isDisabled={isSubmmiting}
+            _pressed={{ backgroundColor: "gold" }}
           >
             <Heading color="white">Sign Up</Heading>
           </Button>

@@ -11,6 +11,7 @@ import {
   VStack,
   Stack,
   ScrollView,
+  Pressable,
 } from "native-base";
 import { TouchableOpacity, View } from "react-native";
 import {
@@ -20,12 +21,13 @@ import {
 } from "@expo/vector-icons";
 import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
-const Home = ({ toMap }) => {
+const Home = ({ toMap, toProfile, pickup }) => {
+  const time = new Date().getHours();
   const user = useSelector((state) => state.login.user);
   return (
     <NativeBaseProvider>
-      <StatusBar backgroundColor="white" barStyle="dark-content" />
-      <Center height={200} bg="green.700">
+      <StatusBar backgroundColor="orange" barStyle="light-content" />
+      <Center height={160} bg="green.700">
         <HStack
           px="1"
           py="3"
@@ -63,111 +65,145 @@ const Home = ({ toMap }) => {
             />
           </HStack>
         </HStack>
-        <VStack height={"40%"} shadow={"1"}>
+
+        <VStack
+          height={"40%"}
+          size="16"
+          backgroundColor="white"
+          rounded="sm"
+          shadow={"3"}
+          shad
+          width={"95%"}
+          mb={"5"}
+          justifyContent={"space-evenly"}
+        >
           {user && (
-            <Heading color="white" fontSize={"18"}>
-              Good Eveing {user.first_name} {user.last_name}
+            <Heading fontSize={"18"} alignSelf="center">
+              {time < 12
+                ? "Good morning, "
+                : time <= 16
+                ? "Good afternoon, "
+                : "Good evening, "}
+              {user.first_name} {user.last_name}
             </Heading>
           )}
+          <Text alignSelf="center">How can we help you today?</Text>
         </VStack>
       </Center>
       <ScrollView h={"50%"} showsVerticalScrollIndicator={false}>
         <Box h={"100%"}>
-          <Stack direction="row" mb="0.5" mt="0.5" width={"100%"} m={0}>
-            <Center
+          <Stack direction="row" mt="0.5" width={"100%"} m={0}>
+            <Pressable
               m={2}
               size="16"
               bg="white"
               rounded="sm"
-              _text={{
-                color: "green.700",
-                fontWeight: "medium",
-              }}
               shadow={"7"}
               width={"48%"}
               height={200}
+              _pressed={{ backgroundColor: "gold" }}
+              onPress={pickup}
             >
-              <Icon
-                as={MaterialCommunityIcons}
-                name="dump-truck"
-                size={100}
-                color="green.700"
-              />
-              Request Waste Pick Up
-            </Center>
+              <Center
+                _text={{
+                  color: "green.700",
+                  fontWeight: "medium",
+                }}
+              >
+                <Icon
+                  as={MaterialCommunityIcons}
+                  name="dump-truck"
+                  size={100}
+                  color="green.700"
+                />
+                Request Waste Pick Up
+              </Center>
+            </Pressable>
 
-            <Center
+            <Pressable
               m={2}
               ml={-1}
               size="16"
               bg="white"
               rounded="sm"
-              _text={{
-                color: "green.700",
-                fontWeight: "medium",
-              }}
-              shadow={"3"}
+              shadow={"7"}
               width={"48%"}
               height={200}
+              _pressed={{ backgroundColor: "gold" }}
             >
-              <Icon
-                as={MaterialIcons}
-                name="payments"
-                size={100}
-                color="green.700"
-              />
-              Make Payment
-            </Center>
+              <Center
+                _text={{
+                  color: "green.700",
+                  fontWeight: "medium",
+                }}
+              >
+                <Icon
+                  as={MaterialIcons}
+                  name="payments"
+                  size={100}
+                  color="green.700"
+                />
+                Make Payment
+              </Center>
+            </Pressable>
           </Stack>
-          <Stack direction="row" mb="0.5" mt="0.5" width={"100%"} m={0}>
-            <Center
+          <Stack direction="row" mb="0.5" width={"100%"} m={0}>
+            <Pressable
               m={2}
               size="16"
               bg="white"
               rounded="sm"
-              _text={{
-                color: "green.700",
-                fontWeight: "medium",
-              }}
               shadow={"7"}
               width={"48%"}
               height={200}
+              _pressed={{ backgroundColor: "gold" }}
             >
-              <Icon
-                as={MaterialCommunityIcons}
-                name="calendar"
-                size={100}
-                color="green.700"
-              />
-              Schedule Pick up
-            </Center>
+              <Center
+                _text={{
+                  color: "green.700",
+                  fontWeight: "medium",
+                }}
+              >
+                <Icon
+                  as={MaterialCommunityIcons}
+                  name="calendar"
+                  size={100}
+                  color="green.700"
+                />
+                Schedule Pick up
+              </Center>
+            </Pressable>
 
-            <Center
+            <Pressable
               m={2}
               ml={-1}
               size="16"
               bg="white"
               rounded="sm"
-              _text={{
-                color: "green.700",
-                fontWeight: "medium",
-              }}
-              shadow={"3"}
+              shadow={"7"}
               width={"48%"}
               height={200}
+              _pressed={{ backgroundColor: "gold" }}
             >
-              <Icon
-                as={MaterialCommunityIcons}
-                name="broadcast"
-                size={100}
-                color="green.700"
-              />
-              Track Dreiver
-            </Center>
+              <Center
+                _text={{
+                  color: "green.700",
+                  fontWeight: "medium",
+                }}
+              >
+                <Icon
+                  as={MaterialCommunityIcons}
+                  name="broadcast"
+                  size={100}
+                  color="green.700"
+                />
+                Track Driver
+              </Center>
+            </Pressable>
           </Stack>
         </Box>
       </ScrollView>
-      <Footer selected={0} toMap={toMap} />
+      <Footer selected={0} toMap={toMap} toAccount={toProfile} />
     </NativeBaseProvider>
   );
 };

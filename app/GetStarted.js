@@ -34,6 +34,7 @@ export default function GetStarted({ get_started, login }) {
           alignSelf={"center"}
           width={"100%"}
           onPress={get_started}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="white">Get Started</Heading>
         </Button>
@@ -47,6 +48,7 @@ export default function GetStarted({ get_started, login }) {
           alignSelf={"center"}
           width={"100%"}
           onPress={login}
+          _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="green.700">Login</Heading>
         </Button>

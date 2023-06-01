@@ -45,7 +45,12 @@ const Map = ({ back }) => {
           }}
         ></MapView>
       </View>
-      <Actionsheet isOpen={openOverlay} onClose={showOverLay}>
+      <Actionsheet
+        isOpen={openOverlay}
+        onClose={showOverLay}
+        disableOverlay={true}
+        useRNModal={true}
+      >
         <Actionsheet.Content borderTopRadius="0">
           <Box w="100%" h={60} px={4} justifyContent="center">
             <Text
