@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import React from "react";
 import GetStarted from "./app/GetStarted";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -12,8 +11,8 @@ import Home from "./app/Home";
 import Map from "./app/Map";
 import Profile from "./app/Profile";
 import PickUp from "./app/components/PickUp";
+import Requests from "./app/Requests";
 import { useSelector } from "react-redux";
-import { enableLatestRenderer } from "react-native-maps";
 
 const GetStartedScreen = () => {
   const nav = useNavigation();
@@ -65,14 +64,17 @@ const PickUpScreen = () => {
   const nav = useNavigation();
   return <PickUp back={() => nav.goBack()} />;
 };
+const RequestsScreen = () => {
+  const nav = useNavigation();
+  return <Requests back={() => nav.goBack()} />;
+};
 const Stack = createStackNavigator();
-enableLatestRenderer();
+
 export default function App() {
   const loggedIn = useSelector((state) => state.login.loggedIn);
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Home" component={HomeScreen} options={options} /> */}
         <Stack.Screen
           name="Get Started"
           component={loggedIn ? HomeScreen : GetStartedScreen}
@@ -94,6 +96,12 @@ export default function App() {
         <Stack.Screen
           name="Pick up"
           component={PickUpScreen}
+          options={options}
+        />
+
+        <Stack.Screen
+          name="Requests"
+          component={RequestsScreen}
           options={options}
         />
       </Stack.Navigator>

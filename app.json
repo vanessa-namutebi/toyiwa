@@ -6,6 +6,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
     "extra": {
       "eas": {
         "projectId": "6f108bb7-c619-40f4-b36e-4893f68db2d7"

@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { Button, Image, Container, Text, Center } from "native-base";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -15,16 +15,64 @@ import {
   Actionsheet,
 } from "native-base";
 import { View } from "react-native";
-
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import {
+  MaterialIcons,
+  Ionicons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import { Platform } from "react-native";
+import * as Location from "expo-location";
 const Map = ({ back }) => {
-  const [openOverlay, setOpen] = useState(false);
+  const [openOverlay, setOpen] = useState(true);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const showOverLay = () => {
     setOpen(!openOverlay);
   };
+  const time = new Date().getHours();
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    })();
+  }, []);
+  console.log(location);
   return (
     <NativeBaseProvider>
-      <StatusBar backgroundColor="transparent" style={"dark-content"} />
-      <View width={"100%"} height={"100%"}></View>
+      <StatusBar backgroundColor="transparent" style="light" />
+      <View width={"100%"} height={"100%"}>
+        <MapView
+          showsCompass={true}
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          style={{ width: "100%", height: "100%" }}
+          mapType={time > 18 || time < 7 ? "hybrid" : "standard"}
+          provider={PROVIDER_GOOGLE}
+          region={
+            location !== null
+              ? {
+                  latitude: location.latitude,
+                  longitude: location.longitude,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
+                }
+              : {
+                  latitude: 0.3476,
+                  longitude: 32.5825,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
+                }
+          }
+          tintColor="blue"
+        ></MapView>
+      </View>
       <Actionsheet
         isOpen={openOverlay}
         onClose={showOverLay}

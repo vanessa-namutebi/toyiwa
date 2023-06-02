@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar, Button, Image, Container, Text, Center } from "native-base";
 import {
   NativeBaseProvider,
@@ -20,6 +21,7 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 const Footer = ({ toHome, toMap, toAccount, selected }) => {
+  const nav = useNavigation();
   return (
     <Box
       flex={1}
@@ -33,9 +35,9 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
         <Pressable
           cursor="pointer"
           opacity={selected === 0 ? 1 : 0.5}
-          py="3"
+          py="2"
           flex={1}
-          onPress={toHome}
+          onPress={() => nav.navigate("Get Started")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
@@ -55,7 +57,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           opacity={selected === 1 ? 1 : 0.5}
           py="2"
           flex={1}
-          onPress={toMap}
+          onPress={() => nav.navigate("Map")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
@@ -75,7 +77,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           opacity={selected === 2 ? 1 : 0.6}
           py="2"
           flex={1}
-          onPress={toHome}
+          onPress={() => nav.navigate("Requests")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
@@ -94,7 +96,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
               size={30}
             />
             <Text color="green.700" fontSize="12" fontWeight={"600"}>
-              Payments
+              Requests
             </Text>
           </Center>
         </Pressable>
@@ -103,7 +105,7 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
           opacity={selected === 3 ? 1 : 0.5}
           py="2"
           flex={1}
-          onPress={toAccount}
+          onPress={() => nav.navigate("Profile")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Center>
