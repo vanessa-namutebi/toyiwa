@@ -3,6 +3,11 @@
     "version": ">= 3.12.0"
   },
   "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
     "development": {
       "distribution": "internal",
       "android": {
@@ -12,9 +17,7 @@
         "buildConfiguration": "Debug"
       }
     },
-    "preview": {
-      "distribution": "internal"
-    },
+   
     "production": {}
   },
   "submit": {

@@ -21,9 +21,11 @@ import {
 } from "@expo/vector-icons";
 import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 const Home = ({ toMap, toProfile, pickup }) => {
   const time = new Date().getHours();
   const user = useSelector((state) => state.login.user);
+  const nav = useNavigation();
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor="orange" barStyle="light-content" />
@@ -71,8 +73,7 @@ const Home = ({ toMap, toProfile, pickup }) => {
           size="16"
           backgroundColor="white"
           rounded="sm"
-          shadow={"3"}
-          shad
+          shadow={"9"}
           width={"95%"}
           mb={"5"}
           justifyContent={"space-evenly"}
@@ -102,7 +103,7 @@ const Home = ({ toMap, toProfile, pickup }) => {
               width={"48%"}
               height={200}
               _pressed={{ backgroundColor: "gold" }}
-              onPress={pickup}
+              onPress={() => nav.navigate("Pick up")}
             >
               <Center
                 _text={{

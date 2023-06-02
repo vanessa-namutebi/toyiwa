@@ -11,7 +11,8 @@
         "projectId": "6f108bb7-c619-40f4-b36e-4893f68db2d7"
       },
       "env": {
-        "API_URL": "https://7xn0xz5xp7.execute-api.us-west-2.amazonaws.com/api"
+        "API_URL":"http://192.168.1.8:3000/api"
+         
       }
     }
   }

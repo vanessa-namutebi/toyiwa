@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useCallback, memo, useEffect } from "react";
 import {
   StatusBar,
   Button,
@@ -26,7 +26,12 @@ import {
   Spinner,
   Radio,
   Flex,
+  Progress,
+  Skeleton,
+  CheckIcon,
+  Checkbox,
 } from "native-base";
+
 import {
   MaterialIcons,
   Ionicons,
@@ -42,6 +47,7 @@ const PickUp = ({ back }) => {
   const [location, setLocation] = useState({});
   const [quantity, setQuantity] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [renderForm, setRenderForm] = useState(false);
 
   const addtoCategories = (option) => {
     setCategories([...categories, option]);
@@ -67,11 +73,15 @@ const PickUp = ({ back }) => {
       categories: categories,
       quantity: quantity,
     };
-    console.log(request);
+
     axios
       .post(`${apiKey}/pickuprequest`, request)
       .then((response) => {
-        console.log(response.data);
+        if (response.data.success === false) {
+          showToast(response.data.message, "red.700");
+        } else {
+          showToast(response.data.message, "green.700");
+        }
         setSubmitting(false);
       })
       .catch((err) => {
@@ -87,6 +97,13 @@ const PickUp = ({ back }) => {
       accessibilityAnnouncement: "Error",
     });
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setRenderForm(true);
+    }, 100);
+  }, []);
+
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor={"green"} barStyle={"light-content"} />
@@ -130,136 +147,135 @@ const PickUp = ({ back }) => {
           Waste Pick-up Request
         </Heading>
       </HStack>
-      <FormControl m={2} alignSelf={"center"}>
-        <FormControl.Label m={2}>
-          What Category are we picking?
-        </FormControl.Label>
-        <FormControl.HelperText m={2}>
-          (Select all that apply)
-        </FormControl.HelperText>
-        <Radio.Group onChange={(option) => addtoCategories(option)}>
-          <Flex
-            flexWrap={"wrap"}
-            flexDirection={"row"}
-            _text={{
-              fontWeight: "900",
+      {renderForm ? (
+        <FormControl m={2} alignSelf={"center"}>
+          <FormControl.Label m={2}>
+            What Category are we picking?
+          </FormControl.Label>
+          <FormControl.HelperText m={2}>
+            (Select all that apply)
+          </FormControl.HelperText>
+          <Text>Selected: {categories.length}</Text>
+          <Checkbox.Group
+            colorScheme="green"
+            defaultValue={categories}
+            onChange={(values) => {
+              setCategories(values);
             }}
-            m={2}
           >
-            <Radio
-              value="Food waste"
-              my={1}
-              colorScheme={"green"}
-              icon={<Icon as={<MaterialCommunityIcons name="check" />} />}
-            >
-              Food waste
-            </Radio>
-            <Radio
-              value="Yard waste"
-              my={1}
-              colorScheme={"green"}
-              icon={<Icon as={<MaterialCommunityIcons name="check" />} />}
-            >
-              Yard waste
-            </Radio>
-            <Radio value="Plastic" my={1}>
-              Plastic
-            </Radio>
-            <Radio value="Metal" my={1}>
-              Matel
-            </Radio>
-            <Radio
-              value="Hazardous"
-              my={1}
-              colorScheme={"green"}
-              icon={<Icon as={<MaterialCommunityIcons name="check" />} />}
-            >
-              Hazardous
-            </Radio>
-            <Radio value="Glass" my={1}>
-              Glass
-            </Radio>
-            <Radio
-              value="Paper"
-              my={1}
-              colorScheme={"green"}
-              icon={<Icon as={<MaterialCommunityIcons name="check" />} />}
-            >
-              Paper
-            </Radio>
-            <Radio
-              value="Polythen Bags"
-              my={1}
-              colorScheme={"green"}
-              icon={<Icon as={<MaterialCommunityIcons name="check" />} />}
-            >
-              Polythen Bags
-            </Radio>
-          </Flex>
-        </Radio.Group>
-        <FormControl.Label m={2}>
-          What is the Quanity in Kilogram?
-        </FormControl.Label>
+            <Flex flexWrap={"wrap"} flexDirection={"row"} m={2}>
+              <Checkbox value="Yard waste" my="1">
+                Yard waste
+              </Checkbox>
+              <Checkbox value="Metal" my="1">
+                Metal
+              </Checkbox>
+              <Checkbox value="Hazardous" my="1">
+                Hazardous
+              </Checkbox>
+              <Checkbox value="Plastic" my="1">
+                Plastic
+              </Checkbox>
+              <Checkbox value="Food waste" my="1">
+                Food waste
+              </Checkbox>
+              <Checkbox value="Glass" my="1">
+                Glass
+              </Checkbox>
+              <Checkbox value="Paper" my="1">
+                Paper
+              </Checkbox>
+              <Checkbox value=" Polythen Bags" my="1">
+                Polythen Bags
+              </Checkbox>
+            </Flex>
+          </Checkbox.Group>
 
-        <Input
-          m={2}
-          keyboardType="numeric"
-          value={quantity && quantity}
-          onChangeText={(value) => setQuantity(value)}
-          placeholder="Enter Quantity"
-          fontSize={"16"}
-          backgroundColor={"white"}
-          borderColor={"green.700"}
-          InputRightElement={
-            <Icon
-              as={<MaterialCommunityIcons name="weight-kilogram" />}
-              size={25}
-              m={2}
-            />
-          }
-        />
-        <FormControl.Label m={2}>
-          Where are we picking the waste?
-        </FormControl.Label>
-        <Pressable
-          mb={"1.5"}
-          alignSelf={"center"}
-          size="16"
-          rounded="sm"
-          bg={"white"}
-          width={"96%"}
-          height={50}
-          alignItems={"center"}
-          padding={1}
-          _pressed={{
-            backgroundColor: "gray.200",
-          }}
-          flexDirection={"row"}
-          justifyContent={"space-between"}
-          borderColor={"green.700"}
-          borderWidth={1}
-        >
-          <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
-            Location
-          </Text>
-          <Icon
-            mb="1"
-            as={<Ionicons name={"location"} />}
-            color="gray.500"
-            size={25}
+          <FormControl.Label m={2}>
+            What is the Quanity in Kilogram?
+          </FormControl.Label>
+
+          <Input
+            m={2}
+            keyboardType="numeric"
+            value={quantity && quantity}
+            onChangeText={(value) => setQuantity(value)}
+            placeholder="Enter Quantity"
+            fontSize={"16"}
+            backgroundColor={"white"}
+            borderColor={"green.700"}
+            InputRightElement={
+              <Icon
+                as={<MaterialCommunityIcons name="weight-kilogram" />}
+                size={25}
+                m={2}
+              />
+            }
           />
-        </Pressable>
-        <Button
-          m={5}
-          height={50}
-          _pressed={{ backgroundColor: "gold" }}
-          backgroundColor="green.700"
-          onPress={submitRequest}
-          isLoading={submitting}
-        >
-          <Heading color={"white"}>Next</Heading>
-        </Button>
-      </FormControl>
+          <FormControl.Label m={2}>
+            Where are we picking the waste?
+          </FormControl.Label>
+          <Pressable
+            mb={"1.5"}
+            alignSelf={"center"}
+            size="16"
+            rounded="sm"
+            bg={"white"}
+            width={"96%"}
+            height={50}
+            alignItems={"center"}
+            padding={1}
+            _pressed={{
+              backgroundColor: "gray.200",
+            }}
+            flexDirection={"row"}
+            justifyContent={"space-between"}
+            borderColor={"green.700"}
+            borderWidth={1}
+          >
+            <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
+              Location
+            </Text>
+            <Icon
+              mb="1"
+              as={<Ionicons name={"location"} />}
+              color="gray.500"
+              size={25}
+            />
+          </Pressable>
+          <Button
+            m={5}
+            height={50}
+            _pressed={{ backgroundColor: "gold" }}
+            backgroundColor="green.700"
+            onPress={submitRequest}
+            isLoading={submitting}
+            isDisabled={submitting}
+            isLoadingText="Submitting"
+            _loading={{ backgroundColor: "#000000c0", color: "black" }}
+          >
+            <Heading color={"white"}>Next</Heading>
+          </Button>
+        </FormControl>
+      ) : (
+        <Center w="100%">
+          <VStack
+            w="95%"
+            maxW="400"
+            borderWidth="1"
+            space={8}
+            overflow="hidden"
+            rounded="md"
+            _light={{
+              borderColor: "coolGray.200",
+            }}
+          >
+            <Skeleton h="40" />
+            <Skeleton.Text px="4" />
+            <Skeleton px="4" my="4" rounded="md" startColor="green.200" />
+          </VStack>
+        </Center>
+      )}
     </NativeBaseProvider>
   );
 };

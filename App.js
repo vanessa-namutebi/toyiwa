@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import GetStarted from "./app/GetStarted";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -53,7 +54,12 @@ const MapScreen = () => {
 };
 const ProfileScreen = () => {
   const nav = useNavigation();
-  return <Profile toHome={() => nav.navigate("Get Started")} />;
+  return (
+    <Profile
+      toHome={() => nav.navigate("Get Started")}
+      back_to_top={() => nav.popToTop()}
+    />
+  );
 };
 const PickUpScreen = () => {
   const nav = useNavigation();

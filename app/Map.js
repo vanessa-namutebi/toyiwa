@@ -16,35 +16,15 @@ import {
 } from "native-base";
 import { View } from "react-native";
 
-import {
-  MaterialIcons,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 const Map = ({ back }) => {
-  const [openOverlay, setOpen] = useState(true);
+  const [openOverlay, setOpen] = useState(false);
   const showOverLay = () => {
     setOpen(!openOverlay);
   };
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor="transparent" style={"dark-content"} />
-      <View width={"100%"} height={"100%"}>
-        <MapView
-          showsCompass={true}
-          showsUserLocation={true}
-          showsMyLocationButton={true}
-          style={{ width: "100%", height: "100%" }}
-          provider={PROVIDER_GOOGLE}
-          region={{
-            latitude: 0.3476,
-            longitude: 32.5825,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-        ></MapView>
-      </View>
+      <View width={"100%"} height={"100%"}></View>
       <Actionsheet
         isOpen={openOverlay}
         onClose={showOverLay}
