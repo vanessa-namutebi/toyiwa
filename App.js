@@ -12,6 +12,7 @@ import Map from "./app/Map";
 import Profile from "./app/Profile";
 import PickUp from "./app/components/PickUp";
 import Requests from "./app/Requests";
+import Schedule from "./app/components/Schedule";
 import { useSelector } from "react-redux";
 
 const GetStartedScreen = () => {
@@ -68,6 +69,10 @@ const RequestsScreen = () => {
   const nav = useNavigation();
   return <Requests back={() => nav.goBack()} />;
 };
+const ScheduleScreen = () => {
+  const nav = useNavigation();
+  return <Schedule back={() => nav.goBack()} />;
+};
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -102,6 +107,11 @@ export default function App() {
         <Stack.Screen
           name="Requests"
           component={RequestsScreen}
+          options={options}
+        />
+        <Stack.Screen
+          name="Schedule"
+          component={ScheduleScreen}
           options={options}
         />
       </Stack.Navigator>

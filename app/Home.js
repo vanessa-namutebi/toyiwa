@@ -158,6 +158,7 @@ const Home = ({ toMap, toProfile, pickup }) => {
               width={"48%"}
               height={200}
               _pressed={{ backgroundColor: "gold" }}
+              onPress={() => nav.navigate("Schedule")}
             >
               <Center
                 _text={{

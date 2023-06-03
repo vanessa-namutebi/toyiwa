@@ -15,7 +15,7 @@ import {
   Actionsheet,
 } from "native-base";
 import { View } from "react-native";
-import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import MapView from "react-native-maps";
 import {
   MaterialIcons,
   Ionicons,
@@ -46,15 +46,17 @@ const Map = ({ back }) => {
   console.log(location);
   return (
     <NativeBaseProvider>
-      <StatusBar backgroundColor="transparent" style="light" />
+      <StatusBar
+        backgroundColor="transparent"
+        style={time > 16 || time < 7 ? "light" : "dark"}
+      />
       <View width={"100%"} height={"100%"}>
         <MapView
           showsCompass={true}
           showsUserLocation={true}
           showsMyLocationButton={true}
           style={{ width: "100%", height: "100%" }}
-          mapType={time > 18 || time < 7 ? "hybrid" : "standard"}
-          provider={PROVIDER_GOOGLE}
+          mapType={time > 16 || time < 7 ? "hybrid" : "standard"}
           region={
             location !== null
               ? {

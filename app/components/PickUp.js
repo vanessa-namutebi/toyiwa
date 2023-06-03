@@ -1,42 +1,8 @@
 import React, { useState, useCallback, memo, useEffect } from "react";
-import {
-  StatusBar,
-  Button,
-  Image,
-  Container,
-  Text,
-  Center,
-  Stack,
-} from "native-base";
-import {
-  NativeBaseProvider,
-  Heading,
-  FormControl,
-  Box,
-  Input,
-  VStack,
-  HStack,
-  Icon,
-  Avatar,
-  ScrollView,
-  Pressable,
-  Actionsheet,
-  Toast,
-  Divider,
-  Spinner,
-  Radio,
-  Flex,
-  Progress,
-  Skeleton,
-  CheckIcon,
-  Checkbox,
-} from "native-base";
-
-import {
-  MaterialIcons,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { StatusBar, Button, FormControl, Center, Input } from "native-base";
+import { Icon, Pressable, Toast, Flex, Skeleton, Checkbox } from "native-base";
+import { NativeBaseProvider, Heading, VStack, HStack, Text } from "native-base";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import getApi from "../getApi";
