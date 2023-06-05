@@ -1,5 +1,12 @@
 import React, { useState, useCallback, memo, useEffect } from "react";
-import { StatusBar, Button, FormControl, Center, Input } from "native-base";
+import {
+  StatusBar,
+  Button,
+  FormControl,
+  Center,
+  Input,
+  ScrollView,
+} from "native-base";
 import { Icon, Pressable, Toast, Flex, Skeleton, Checkbox } from "native-base";
 import { NativeBaseProvider, Heading, VStack, HStack, Text } from "native-base";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -121,7 +128,7 @@ const PickUp = ({ back }) => {
           <FormControl.HelperText m={2}>
             (Select all that apply)
           </FormControl.HelperText>
-          <Text>Selected: {categories.length}</Text>
+
           <Checkbox.Group
             colorScheme="green"
             defaultValue={categories}
@@ -163,13 +170,14 @@ const PickUp = ({ back }) => {
 
           <Input
             m={2}
+            borderColor={"green.700"}
+            borderWidth={2}
             keyboardType="numeric"
             value={quantity && quantity}
             onChangeText={(value) => setQuantity(value)}
             placeholder="Enter Quantity"
             fontSize={"16"}
             backgroundColor={"white"}
-            borderColor={"green.700"}
             InputRightElement={
               <Icon
                 as={<MaterialCommunityIcons name="weight-kilogram" />}
@@ -197,7 +205,7 @@ const PickUp = ({ back }) => {
             flexDirection={"row"}
             justifyContent={"space-between"}
             borderColor={"green.700"}
-            borderWidth={1}
+            borderWidth={2}
           >
             <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
               Location

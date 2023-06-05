@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Toyiwa",
-    "slug": "Toyiwa",
+    "name": "SmartBin",
+    "slug": "SmartBin",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
@@ -16,7 +16,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "6f108bb7-c619-40f4-b36e-4893f68db2d7"
+        "projectId": "b62b338c-7b58-4e33-9f7e-ce93f6174433"
       },
       "env": {
         "API_URL":"https://smartbin-oh7z.onrender.com/api"

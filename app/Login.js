@@ -22,41 +22,43 @@ import { useSelector, useDispatch } from "react-redux";
 import { login } from "../state/LoginSlice";
 import { dotenv, config } from "dotenv";
 import getApi from "./getApi";
-
+import { useNavigation } from "@react-navigation/native";
 const apiKey = getApi();
 const Login = ({ get_started, backHome }) => {
+  const nav = useNavigation();
   const [credentials, setCredentials] = useState({ email: "", password: "" });
 
   const dispatch = useDispatch();
   const [loggingIn, setLoggingIn] = useState(false);
-
+  const [showPass, setShowPass] = useState(false);
   const handleLogin = () => {
     if (!credentials.email) {
       showToast("Email address is required!");
       return;
-    }
-    if (!credentials.password) {
+    } else if (!credentials.password) {
       showToast("Password is required!");
       return;
-    }
-    setLoggingIn(true);
-    axios
-      .post(`${apiKey}/login`, credentials)
-      .then((response) => {
-        if (response.data.user) {
-          const user = response.data.user;
-          showToast(`Welcome ${user.first_name}`);
-          dispatch(login(user));
-          backHome();
-        } else {
-          showToast(response.data.message);
-        }
-      })
+    } else {
+      setLoggingIn(true);
 
-      .catch((err) => {
-        showToast(err.message);
-      });
-    setLoggingIn(false);
+      axios
+        .post(`${apiKey}/login`, credentials)
+        .then((response) => {
+          if (response.data.user) {
+            const user = response.data.user;
+            showToast(`Welcome ${user.first_name}`);
+            dispatch(login(user));
+            nav.popToTop();
+          } else {
+            showToast(response.data.message);
+          }
+        })
+
+        .catch((err) => {
+          showToast(err.message);
+        });
+      setLoggingIn(false);
+    }
   };
 
   const showToast = (msg) => {
@@ -105,7 +107,7 @@ const Login = ({ get_started, backHome }) => {
           }
         />
         <Input
-          type={"password"}
+          type={showPass ? "text" : "password"}
           value={credentials.password}
           onChangeText={(value) =>
             setCredentials({
@@ -128,15 +130,17 @@ const Login = ({ get_started, backHome }) => {
             />
           }
           InputRightElement={
-            <Icon
-              m={2}
-              as={Ionicons}
-              name="ios-eye"
-              color="green.700"
-              _dark={{
-                color: "warmGray.50",
-              }}
-            />
+            <Pressable onPress={() => setShowPass(!showPass)}>
+              <Icon
+                m={2}
+                as={Ionicons}
+                name={showPass ? "ios-eye-off" : "ios-eye"}
+                color="green.700"
+                _dark={{
+                  color: "warmGray.50",
+                }}
+              />
+            </Pressable>
           }
         />
         <Button
@@ -144,6 +148,7 @@ const Login = ({ get_started, backHome }) => {
           bg="green.700"
           onPress={handleLogin}
           isLoading={loggingIn}
+          isDisabled={loggingIn}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="white">Login</Heading>

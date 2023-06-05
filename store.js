@@ -4,7 +4,7 @@ import requestsSlice from "./state/requestsSlice";
 const store = configureStore({
   reducer: {
     login: loginReducer,
-    requets: requestsSlice,
+    requests: requestsSlice,
   },
 });
 

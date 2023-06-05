@@ -1,5 +1,5 @@
 {
-  "name": "smartbin",
+  "name": "toyiwa",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "6.7.3",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^5.9.8",
     "@react-navigation/stack": "^5.14.9",

@@ -1,11 +1,11 @@
 import React from "react";
-import { StatusBar, Button, Image, Center } from "native-base";
+import { Button, Image, Center } from "native-base";
 import { NativeBaseProvider, Heading, FormControl, Box } from "native-base";
-
+import { StatusBar } from "expo-status-bar";
 export default function GetStarted({ get_started, login }) {
   return (
     <NativeBaseProvider>
-      <StatusBar barStyle={"light-content"} backgroundColor={"gold"} />
+      <StatusBar style="light" backgroundColor="orange" />
       <Box bg="green.700" width={"100%"} height={"50%"}>
         <Center>
           <Image

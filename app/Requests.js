@@ -13,14 +13,13 @@ import { requests } from "../state/requestsSlice";
 const Requests = ({ back }) => {
   const apiKey = getApi();
   const dispatch = useDispatch();
-  const fetched = useSelector((state) => state.requets.fetched);
-  const my_requests = useSelector((state) => state.requets.requests);
+  const fetched = useSelector((state) => state.requests.fetched);
+  const my_requests = useSelector((state) => state.requests.requests);
   const user = useSelector((state) => state.login.user);
   useEffect(() => {
     axios
       .get(`${apiKey}/pickuprequest/${user._id}`)
       .then((response) => {
-        console.log(response.data);
         dispatch(requests(response.data));
       })
       .catch((err) => {

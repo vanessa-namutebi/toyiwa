@@ -34,7 +34,8 @@ function Register({ login }) {
   const [phoneNumber, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [err, setErr] = useState("");
+  const [showPass, setShowPass] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [isSubmmiting, setIsSubmitting] = useState(false);
   const showSelectImage = useCallback(() => {
     setIsSelect(!isSelect);
@@ -88,8 +89,8 @@ function Register({ login }) {
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />
       <ScrollView>
-        <FormControl width={"100%"} alignSelf={"center"}>
-          <Pressable onPress={showSelectImage}>
+        <FormControl width={"100%"} alignSelf={"center"} mt={"16"}>
+          {/* <Pressable onPress={showSelectImage}>
             <Avatar
               bg="purple.600"
               alignSelf="center"
@@ -101,7 +102,7 @@ function Register({ login }) {
             >
               RB
             </Avatar>
-          </Pressable>
+          </Pressable> */}
           <HStack width={"90%"}>
             <Box width={"50%"} m={2}>
               <FormControl.Label m={2}>First Name</FormControl.Label>
@@ -173,7 +174,7 @@ function Register({ login }) {
             <Input
               value={password}
               onChangeText={(value) => handleFormChange(setPassword, value)}
-              type="password"
+              type={showPass ? "text" : "password"}
               placeholder="Set new Password"
               fontSize={"14"}
               borderColor={"green.700"}
@@ -189,15 +190,17 @@ function Register({ login }) {
                 />
               }
               InputRightElement={
-                <Icon
-                  m={2}
-                  as={Ionicons}
-                  name="ios-eye"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
+                <Pressable onPress={() => setShowPass(!showPass)}>
+                  <Icon
+                    m={2}
+                    as={Ionicons}
+                    name={showPass ? "ios-eye-off" : "ios-eye"}
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                </Pressable>
               }
             />
           </VStack>
@@ -206,7 +209,7 @@ function Register({ login }) {
             <Input
               value={confirm}
               onChangeText={(value) => handleFormChange(setConfirm, value)}
-              type="password"
+              type={showConfirm ? "text" : "password"}
               placeholder="Confirm Password"
               fontSize={"14"}
               borderColor={"green.700"}
@@ -222,15 +225,17 @@ function Register({ login }) {
                 />
               }
               InputRightElement={
-                <Icon
-                  m={2}
-                  as={Ionicons}
-                  name="ios-eye"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
+                <Pressable onPress={() => setShowConfirm(!showConfirm)}>
+                  <Icon
+                    m={2}
+                    as={Ionicons}
+                    name={showConfirm ? "ios-eye-off" : "ios-eye"}
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                </Pressable>
               }
             />
           </VStack>
