@@ -1,5 +1,5 @@
-import React, { useState, useCallback, memo } from "react";
-import { StatusBar, Button, Image, Container, Text, Center } from "native-base";
+import React, { useState, useCallback, memo, useEffect } from "react";
+import { StatusBar, Button, Center } from "native-base";
 import {
   NativeBaseProvider,
   Heading,
@@ -21,57 +21,57 @@ import axios from "axios";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import getApi from "./getApi";
-
+import { useNavigation } from "@react-navigation/native";
 const apiKey = getApi();
 
 function Register({ login }) {
   const loggedIn = useSelector((state) => state.login.loggedIn);
+
+  //state
   const [isSelect, setIsSelect] = useState(false);
-  //values
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [showPass, setShowPass] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [isSubmmiting, setIsSubmitting] = useState(false);
+  const [account, setAccount] = useState({});
+  const [state, setState] = useState({
+    showPass: false,
+    showConfirm: false,
+    isSubmmiting: false,
+    showForm: false,
+  });
+
   const showSelectImage = useCallback(() => {
     setIsSelect(!isSelect);
   });
-  const handleFormChange = useCallback((setState, value) => {
-    setState(value);
-  });
+
   const handleSubmit = async () => {
-    if (!fname || !lname || !email || !phoneNumber || !password || !confirm) {
+    if (
+      !account.last_name ||
+      !account.last_name ||
+      !account.email ||
+      !account.phone_number ||
+      !account.password ||
+      !account.confirm
+    ) {
       showToast("Please fill all the required fields!", "red.500");
       return;
     }
-    if (confirm !== password) {
+    if (account.confirm !== account.password) {
       showToast("Passwords do not match!", "red.500");
       return;
     }
-    setIsSubmitting(true);
+    setState({ ...state, isSubmmiting: true });
     await axios
-      .post(`${apiKey}/register`, {
-        first_name: fname,
-        last_name: lname,
-        email: email,
-        phone_number: phoneNumber,
-        password: password,
-      })
+      .post(`${apiKey}/register`, account)
       .then((response) => {
-        setIsSubmitting(false);
+        setState({ ...state, isSubmmiting: false });
         if (response.data.success === true) {
           showToast(response.data.message, "green.500");
           login();
         } else {
           showToast(response.data.message, "red.500");
+          setState({ ...state, isSubmmiting: false });
         }
       })
       .catch((err) => {
-        setIsSubmitting(false);
+        setState({ ...state, isSubmmiting: false });
         showToast(err.message, "red.500");
       });
   };
@@ -84,13 +84,59 @@ function Register({ login }) {
       accessibilityAnnouncement: "Error",
     });
   };
-
+  useEffect(() => {
+    setTimeout(() => setState({ ...state, showForm: true }), 100);
+  }, []);
+  const nav = useNavigation();
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />
+      <Center direction="row" mb="2.5" mt="1.5" space={3} height={"15%"}>
+        <HStack
+          height={"100%"}
+          size="16"
+          backgroundColor="white"
+          rounded="sm"
+          shadow={"3"}
+          shad
+          width={"100%"}
+        >
+          <Pressable
+            width={50}
+            m={2}
+            height={50}
+            mt={"10"}
+            p="2"
+            bg="white"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
+            shadow={2}
+            rounded={"full"}
+            justifyContent={"space-evenly"}
+            _pressed={{ backgroundColor: "gold" }}
+            onPress={() => nav.goBack()}
+          >
+            <Icon
+              as={Ionicons}
+              name="chevron-back-outline"
+              size={30}
+              color="green.700"
+            />
+          </Pressable>
+
+          <Heading alignSelf="center" color="green.700">
+            Create Account
+          </Heading>
+        </HStack>
+      </Center>
       <ScrollView>
-        <FormControl width={"100%"} alignSelf={"center"} mt={"16"}>
-          {/* <Pressable onPress={showSelectImage}>
+        {state.showForm === true ? (
+          <FormControl width={"100%"} alignSelf={"center"}>
+            {/* <Pressable onPress={showSelectImage}>
             <Avatar
               bg="purple.600"
               alignSelf="center"
@@ -103,153 +149,181 @@ function Register({ login }) {
               RB
             </Avatar>
           </Pressable> */}
-          <HStack width={"90%"}>
-            <Box width={"50%"} m={2}>
-              <FormControl.Label m={2}>First Name</FormControl.Label>
+            <HStack width={"90%"}>
+              <Box width={"50%"} m={2}>
+                <FormControl.Label m={2}>First Name</FormControl.Label>
+                <Input
+                  value={account.first_name}
+                  onChangeText={(value) =>
+                    setAccount({ ...account, first_name: value })
+                  }
+                  width={"100%"}
+                  placeholder="First name"
+                  fontSize={"14"}
+                  borderColor="green.700"
+                />
+              </Box>
+              <Box width={"50%"} m={2}>
+                <FormControl.Label m={2}>Last Name</FormControl.Label>
+                <Input
+                  value={account.last_name}
+                  onChangeText={(value) =>
+                    setAccount({ ...account, last_name: value })
+                  }
+                  width={"100%"}
+                  placeholder="Last name"
+                  fontSize={"14"}
+                  borderColor="green.700"
+                />
+              </Box>
+            </HStack>
+            <VStack m={2}>
+              <FormControl.Label>Email Address</FormControl.Label>
               <Input
-                value={fname}
-                onChangeText={(value) => handleFormChange(setFname, value)}
-                width={"100%"}
-                placeholder="First name"
+                value={account.email}
+                onChangeText={(value) =>
+                  setAccount({ ...account, email: value })
+                }
                 fontSize={"14"}
-                borderColor="green.700"
+                placeholder="Email Address"
+                borderColor={"green.700"}
+                InputLeftElement={
+                  <Icon
+                    m={2}
+                    as={MaterialIcons}
+                    name="email"
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                }
               />
-            </Box>
-            <Box width={"50%"} m={2}>
-              <FormControl.Label m={2}>Last Name</FormControl.Label>
+            </VStack>
+            <VStack m={2}>
+              <FormControl.Label>Phone Number</FormControl.Label>
               <Input
-                value={lname}
-                onChangeText={(value) => handleFormChange(setLname, value)}
-                width={"100%"}
-                placeholder="Last name"
+                value={account.phone_number}
+                onChangeText={(value) =>
+                  setAccount({ ...account, phone_number: value })
+                }
                 fontSize={"14"}
-                borderColor="green.700"
+                placeholder="Phone Number"
+                borderColor={"green.700"}
+                InputLeftElement={
+                  <Icon
+                    m={2}
+                    as={MaterialIcons}
+                    name="phone"
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                }
               />
-            </Box>
+            </VStack>
+            <VStack m={2}>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input
+                value={account.password}
+                onChangeText={(value) =>
+                  setAccount({ ...account, password: value })
+                }
+                type={state.showPass ? "text" : "password"}
+                placeholder="Set new Password"
+                fontSize={"14"}
+                borderColor={"green.700"}
+                InputLeftElement={
+                  <Icon
+                    m={2}
+                    as={Ionicons}
+                    name="finger-print-sharp"
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                }
+                InputRightElement={
+                  <Pressable
+                    onPress={() =>
+                      setState({ ...state, showPass: !state.showPass })
+                    }
+                  >
+                    <Icon
+                      m={2}
+                      as={Ionicons}
+                      name={state.showPass ? "ios-eye-off" : "ios-eye"}
+                      color="green.700"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                    />
+                  </Pressable>
+                }
+              />
+            </VStack>
+            <VStack m={2}>
+              <FormControl.Label>Confirm Password</FormControl.Label>
+              <Input
+                value={account.confirm}
+                onChangeText={(value) =>
+                  setAccount({ ...account, confirm: value })
+                }
+                type={state.showConfirm ? "text" : "password"}
+                placeholder="Confirm Password"
+                fontSize={"14"}
+                borderColor={"green.700"}
+                InputLeftElement={
+                  <Icon
+                    m={2}
+                    as={Ionicons}
+                    name="finger-print-sharp"
+                    color="green.700"
+                    _dark={{
+                      color: "warmGray.50",
+                    }}
+                  />
+                }
+                InputRightElement={
+                  <Pressable
+                    onPress={() =>
+                      setState({ ...state, showConfirm: !state.showConfirm })
+                    }
+                  >
+                    <Icon
+                      m={2}
+                      as={Ionicons}
+                      name={state.showConfirm ? "ios-eye-off" : "ios-eye"}
+                      color="green.700"
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                    />
+                  </Pressable>
+                }
+              />
+            </VStack>
+            <Button
+              m={5}
+              bg="green.700"
+              onPress={handleSubmit}
+              isLoading={state.isSubmmiting}
+              isDisabled={state.isSubmmiting}
+              _pressed={{ backgroundColor: "gold" }}
+            >
+              <Heading color="white">Sign Up</Heading>
+            </Button>
+          </FormControl>
+        ) : (
+          <HStack space={2} justifyContent="center" mt="1/2">
+            <Spinner color="green.700" size={"lg"} />
+            <Heading color="green.700" fontSize="md">
+              Just a moment...
+            </Heading>
           </HStack>
-          <VStack m={2}>
-            <FormControl.Label>Email Address</FormControl.Label>
-            <Input
-              value={email}
-              onChangeText={(value) => handleFormChange(setEmail, value)}
-              fontSize={"14"}
-              placeholder="Email Address"
-              borderColor={"green.700"}
-              InputLeftElement={
-                <Icon
-                  m={2}
-                  as={MaterialIcons}
-                  name="email"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
-              }
-            />
-          </VStack>
-          <VStack m={2}>
-            <FormControl.Label>Phone Number</FormControl.Label>
-            <Input
-              value={phoneNumber}
-              onChangeText={(value) => handleFormChange(setPhone, value)}
-              fontSize={"14"}
-              placeholder="Phone Number"
-              borderColor={"green.700"}
-              InputLeftElement={
-                <Icon
-                  m={2}
-                  as={MaterialIcons}
-                  name="phone"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
-              }
-            />
-          </VStack>
-          <VStack m={2}>
-            <FormControl.Label>Password</FormControl.Label>
-            <Input
-              value={password}
-              onChangeText={(value) => handleFormChange(setPassword, value)}
-              type={showPass ? "text" : "password"}
-              placeholder="Set new Password"
-              fontSize={"14"}
-              borderColor={"green.700"}
-              InputLeftElement={
-                <Icon
-                  m={2}
-                  as={Ionicons}
-                  name="finger-print-sharp"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
-              }
-              InputRightElement={
-                <Pressable onPress={() => setShowPass(!showPass)}>
-                  <Icon
-                    m={2}
-                    as={Ionicons}
-                    name={showPass ? "ios-eye-off" : "ios-eye"}
-                    color="green.700"
-                    _dark={{
-                      color: "warmGray.50",
-                    }}
-                  />
-                </Pressable>
-              }
-            />
-          </VStack>
-          <VStack m={2}>
-            <FormControl.Label>Confirm Password</FormControl.Label>
-            <Input
-              value={confirm}
-              onChangeText={(value) => handleFormChange(setConfirm, value)}
-              type={showConfirm ? "text" : "password"}
-              placeholder="Confirm Password"
-              fontSize={"14"}
-              borderColor={"green.700"}
-              InputLeftElement={
-                <Icon
-                  m={2}
-                  as={Ionicons}
-                  name="finger-print-sharp"
-                  color="green.700"
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                />
-              }
-              InputRightElement={
-                <Pressable onPress={() => setShowConfirm(!showConfirm)}>
-                  <Icon
-                    m={2}
-                    as={Ionicons}
-                    name={showConfirm ? "ios-eye-off" : "ios-eye"}
-                    color="green.700"
-                    _dark={{
-                      color: "warmGray.50",
-                    }}
-                  />
-                </Pressable>
-              }
-            />
-          </VStack>
-          <Button
-            m={5}
-            bg="green.700"
-            onPress={handleSubmit}
-            isLoading={isSubmmiting}
-            isDisabled={isSubmmiting}
-            _pressed={{ backgroundColor: "gold" }}
-          >
-            <Heading color="white">Sign Up</Heading>
-          </Button>
-        </FormControl>
+        )}
       </ScrollView>
       {/* <Actionsheet isOpen={isSubmmiting}>
         <Actionsheet.Content height={200}>

@@ -32,7 +32,7 @@ const Schedule = ({ back }) => {
     setTimeOpen(!timeOpen);
   };
   const showDatePicker = () => setOpen(!open);
-  handleSchedule = () => {
+  handleSchedule = async () => {
     const schedule = {
       user_id: user._id,
       categories: categories,
@@ -41,7 +41,7 @@ const Schedule = ({ back }) => {
       location: location,
       quantity: quantity,
     };
-    axios
+    await axios
       .post(`${apiKey}/schedule`, schedule)
       .then((response) => {
         if (response.data.success === true)
@@ -61,11 +61,8 @@ const Schedule = ({ back }) => {
       backgroundColor: `${color}`,
     });
   };
-  useEffect(() => {
-    setTimeout(() => {
-      setShowForm(true);
-    }, 1000);
-  }, []);
+  useEffect(() => setTimeout(() => setShowForm(true), 1000), []);
+
   return (
     <NativeBaseProvider>
       <StatusBar backgroundColor={"green"} barStyle={"light-content"} />

@@ -5,7 +5,7 @@ const ThisLocation = () => {
   const [myLocation, setMyLocation] = useState({});
 
   useEffect(() => {
-    (async () => {
+    async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
@@ -13,7 +13,7 @@ const ThisLocation = () => {
       }
       let location = await Location.getCurrentPositionAsync({});
       setMyLocation(location);
-    })();
+    };
   }, []);
 
   return myLocation;

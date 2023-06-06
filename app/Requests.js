@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NativeBaseProvider, Heading, StatusBar } from "native-base";
 import { HStack, Icon, ScrollView, Input, Box } from "native-base";
 import { FormControl, VStack, Pressable, Actionsheet } from "native-base";
@@ -16,15 +16,13 @@ const Requests = ({ back }) => {
   const fetched = useSelector((state) => state.requests.fetched);
   const my_requests = useSelector((state) => state.requests.requests);
   const user = useSelector((state) => state.login.user);
-  useEffect(() => {
-    axios
+  const [err, setErr] = useState("");
+
+  useEffect(async () => {
+    await axios
       .get(`${apiKey}/pickuprequest/${user._id}`)
-      .then((response) => {
-        dispatch(requests(response.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((response) => dispatch(requests(response.data)))
+      .catch((err) => setErr(err.message));
   }, []);
 
   return (

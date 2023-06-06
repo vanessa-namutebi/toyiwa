@@ -32,22 +32,10 @@ export default function App() {
     return <Register login={() => nav.navigate("Login")} />;
   };
   const LoginScreen = () => {
-    const nav = useNavigation();
-    return (
-      <Login
-        get_started={() => nav.navigate("Register")}
-        backHome={() => nav.popToTop()}
-      />
-    );
+    return <Login />;
   };
-  const HomeScreen = ({ navigation }) => {
-    return (
-      <Home
-        toMap={() => navigation.navigate("Map")}
-        toProfile={() => navigation.navigate("Profile")}
-        pickup={() => navigation.navigate("Pick up")}
-      />
-    );
+  const HomeScreen = () => {
+    return <Home />;
   };
   const MapScreen = () => {
     const nav = useNavigation();
