@@ -1,10 +1,8 @@
 import React from "react";
 import GetStarted from "./app/GetStarted";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators } from "@react-navigation/stack";
 import Register from "./app/Register";
 import Login from "./app/Login";
 import Home from "./app/Home";
@@ -15,68 +13,68 @@ import Requests from "./app/Requests";
 import Schedule from "./app/components/Schedule";
 import { useSelector } from "react-redux";
 
-const GetStartedScreen = () => {
-  const nav = useNavigation();
-  return (
-    <GetStarted
-      get_started={() => nav.navigate("Register")}
-      login={() => nav.navigate("Login")}
-    />
-  );
-};
-
-const RegisterScreen = () => {
-  const nav = useNavigation();
-  return <Register login={() => nav.navigate("Login")} />;
-};
-const LoginScreen = () => {
-  const nav = useNavigation();
-  return (
-    <Login
-      get_started={() => nav.navigate("Register")}
-      backHome={() => nav.popToTop()}
-    />
-  );
-};
-const HomeScreen = () => {
-  const nav = useNavigation();
-  return (
-    <Home
-      toMap={() => nav.navigate("Map")}
-      toProfile={() => nav.navigate("Profile")}
-      pickup={() => nav.navigate("Pick up")}
-    />
-  );
-};
-const MapScreen = () => {
-  const nav = useNavigation();
-  return <Map />;
-};
-const ProfileScreen = () => {
-  const nav = useNavigation();
-  return (
-    <Profile
-      toHome={() => nav.navigate("Get Started")}
-      back_to_top={() => nav.popToTop()}
-    />
-  );
-};
-const PickUpScreen = () => {
-  const nav = useNavigation();
-  return <PickUp back={() => nav.goBack()} />;
-};
-const RequestsScreen = () => {
-  const nav = useNavigation();
-  return <Requests back={() => nav.goBack()} />;
-};
-const ScheduleScreen = () => {
-  const nav = useNavigation();
-  return <Schedule back={() => nav.goBack()} />;
-};
-const Stack = createStackNavigator();
-
 export default function App() {
   const loggedIn = useSelector((state) => state.login.loggedIn);
+
+  //Screens
+  const GetStartedScreen = ({ navigation }) => {
+    const nav = useNavigation();
+    return (
+      <GetStarted
+        get_started={() => nav.navigate("Register")}
+        login={() => navigation.navigate("Login")}
+      />
+    );
+  };
+
+  const RegisterScreen = () => {
+    const nav = useNavigation();
+    return <Register login={() => nav.navigate("Login")} />;
+  };
+  const LoginScreen = () => {
+    const nav = useNavigation();
+    return (
+      <Login
+        get_started={() => nav.navigate("Register")}
+        backHome={() => nav.popToTop()}
+      />
+    );
+  };
+  const HomeScreen = ({ navigation }) => {
+    return (
+      <Home
+        toMap={() => navigation.navigate("Map")}
+        toProfile={() => navigation.navigate("Profile")}
+        pickup={() => navigation.navigate("Pick up")}
+      />
+    );
+  };
+  const MapScreen = () => {
+    const nav = useNavigation();
+    return <Map />;
+  };
+  const ProfileScreen = () => {
+    const nav = useNavigation();
+    return (
+      <Profile
+        toHome={() => nav.navigate("Get Started")}
+        back_to_top={() => nav.popToTop()}
+      />
+    );
+  };
+  const PickUpScreen = () => {
+    const nav = useNavigation();
+    return <PickUp back={() => nav.goBack()} />;
+  };
+  const RequestsScreen = () => {
+    const nav = useNavigation();
+    return <Requests back={() => nav.goBack()} />;
+  };
+  const ScheduleScreen = () => {
+    const nav = useNavigation();
+    return <Schedule back={() => nav.goBack()} />;
+  };
+  const Stack = createStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator>

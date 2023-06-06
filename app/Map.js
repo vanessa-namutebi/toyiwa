@@ -23,7 +23,7 @@ import {
 } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import * as Location from "expo-location";
-const Map = ({ back }) => {
+const Map = () => {
   const [openOverlay, setOpen] = useState(true);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);

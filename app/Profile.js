@@ -82,15 +82,13 @@ const Profile = ({ toHome, back_to_top }) => {
           <Pressable
             mb={"1.5"}
             alignSelf={"center"}
-            size="16"
             rounded="sm"
             bg={"white"}
-            shadow={"3"}
+            shadow={"9"}
             width={"98%"}
-            height={60}
+            height={50}
             alignItems={"center"}
             padding={1}
-            onPress={showShowOut}
             _pressed={{
               backgroundColor: "gray.200",
             }}
@@ -110,15 +108,13 @@ const Profile = ({ toHome, back_to_top }) => {
           <Pressable
             mb={"1.5"}
             alignSelf={"center"}
-            size="16"
             rounded="sm"
             bg={"white"}
-            shadow={"3"}
+            shadow={"9"}
             width={"98%"}
-            height={60}
+            height={50}
             alignItems={"center"}
             padding={1}
-            onPress={showShowOut}
             _pressed={{
               backgroundColor: "gray.200",
             }}
@@ -138,12 +134,11 @@ const Profile = ({ toHome, back_to_top }) => {
           <Pressable
             mb={"1.5"}
             alignSelf={"center"}
-            size="16"
             rounded="sm"
             bg={"white"}
-            shadow={"3"}
+            shadow={"9"}
             width={"98%"}
-            height={60}
+            height={50}
             alignItems={"center"}
             padding={1}
             onPress={showShowOut}
@@ -166,17 +161,11 @@ const Profile = ({ toHome, back_to_top }) => {
         </Box>
       )}
       <Footer selected={3} toHome={toHome} />
-      <Actionsheet isOpen={isLogout} onClose={showShowOut}>
-        <Actionsheet.Content height={250}>
-          <Text
-            fontSize="16"
-            color="gray.500"
-            _dark={{
-              color: "gray.300",
-            }}
-          >
-            Are you sure you want lo logout
-          </Text>
+      <Actionsheet isOpen={isLogout} onClose={showShowOut} borderRadius={"sm"}>
+        <Actionsheet.Content height={200}>
+          <Heading fontSize="20" color="gray.900">
+            Are you sure you want lo logout?
+          </Heading>
           <Center w="100%" h={"80%"} px={4} justifyContent="center">
             <Button
               width={"90%"}

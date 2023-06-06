@@ -22,7 +22,7 @@ import {
 import Footer from "./components/Footer";
 import { useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-const Home = ({ toMap, toProfile, pickup }) => {
+const Home = () => {
   const time = new Date().getHours();
   const user = useSelector((state) => state.login.user);
   const nav = useNavigation();
@@ -205,7 +205,7 @@ const Home = ({ toMap, toProfile, pickup }) => {
           </Stack>
         </Box>
       </ScrollView>
-      <Footer selected={0} toMap={toMap} toAccount={toProfile} />
+      <Footer selected={0} />
     </NativeBaseProvider>
   );
 };
