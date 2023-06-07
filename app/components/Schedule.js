@@ -61,7 +61,9 @@ const Schedule = ({ back }) => {
       backgroundColor: `${color}`,
     });
   };
-  useEffect(() => setTimeout(() => setShowForm(true), 1000), []);
+  useEffect(() => {
+    setTimeout(() => setShowForm(true), 1000);
+  }, []);
 
   return (
     <NativeBaseProvider>

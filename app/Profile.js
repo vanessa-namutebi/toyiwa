@@ -28,8 +28,9 @@ import {
 } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../state/LoginSlice";
-
-const Profile = ({ toHome, back_to_top }) => {
+import { useNavigation } from "@react-navigation/native";
+const Profile = () => {
+  const nav = useNavigation();
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const [isLogout, setIsLogout] = useState(false);
@@ -42,7 +43,7 @@ const Profile = ({ toHome, back_to_top }) => {
     setLoading(true);
     dispatch(logout());
     setIsLogout(!isLogout);
-    back_to_top();
+    nav.navigate("Get Started");
   };
   return (
     <NativeBaseProvider>
@@ -51,11 +52,10 @@ const Profile = ({ toHome, back_to_top }) => {
         <Box height={"88%"}>
           <Center direction="row" mb="2.5" mt="1.5" space={3}>
             <HStack
-              size="16"
               bg="white"
-              rounded="sm"
-              shadow={"3"}
-              width={"96%"}
+              rounded="md"
+              shadow={"5"}
+              width={"98%"}
               height={150}
             >
               <Avatar
@@ -89,19 +89,20 @@ const Profile = ({ toHome, back_to_top }) => {
             height={50}
             alignItems={"center"}
             padding={1}
+            onPress={() => nav.navigate("Edit Profile")}
             _pressed={{
               backgroundColor: "gray.200",
             }}
             flexDirection={"row"}
             justifyContent={"space-between"}
           >
-            <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
+            <Text fontSize={"18"} color="green.700" fontWeight={"700"}>
               Edit Profile
             </Text>
             <Icon
               mb="1"
               as={<MaterialCommunityIcons name={"account-edit"} />}
-              color="gray.500"
+              color="green.700"
               size={30}
             />
           </Pressable>
@@ -121,13 +122,13 @@ const Profile = ({ toHome, back_to_top }) => {
             flexDirection={"row"}
             justifyContent={"space-between"}
           >
-            <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
+            <Text fontSize={"18"} color="green.700" fontWeight={"700"}>
               My Location
             </Text>
             <Icon
               mb="1"
               as={<Ionicons name={"md-location"} />}
-              color="gray.500"
+              color="green.700"
               size={30}
             />
           </Pressable>
@@ -148,21 +149,21 @@ const Profile = ({ toHome, back_to_top }) => {
             flexDirection={"row"}
             justifyContent={"space-between"}
           >
-            <Text fontSize={"18"} color="gray.500" fontWeight={"800"}>
+            <Text fontSize={"18"} color="green.700" fontWeight={"700"}>
               Logout
             </Text>
             <Icon
               mb="1"
               as={<Ionicons name={"log-out-sharp"} />}
-              color="gray.500"
+              color="green.700"
               size={30}
             />
           </Pressable>
         </Box>
       )}
-      <Footer selected={3} toHome={toHome} />
+      <Footer selected={3} />
       <Actionsheet isOpen={isLogout} onClose={showShowOut} borderRadius={"sm"}>
-        <Actionsheet.Content height={200}>
+        <Actionsheet.Content height={200} borderTopRadius="10">
           <Heading fontSize="20" color="gray.900">
             Are you sure you want lo logout?
           </Heading>

@@ -2,7 +2,9 @@ import React from "react";
 import { Button, Image, Center } from "native-base";
 import { NativeBaseProvider, Heading, FormControl, Box } from "native-base";
 import { StatusBar } from "expo-status-bar";
-export default function GetStarted({ get_started, login }) {
+import { useNavigation } from "@react-navigation/native";
+export default function GetStarted() {
+  const nav = useNavigation();
   return (
     <NativeBaseProvider>
       <StatusBar style="light" backgroundColor="orange" />
@@ -25,7 +27,7 @@ export default function GetStarted({ get_started, login }) {
           bg="green.700"
           alignSelf={"center"}
           width={"100%"}
-          onPress={get_started}
+          onPress={() => nav.navigate("Register")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="white">Get Started</Heading>
@@ -39,7 +41,7 @@ export default function GetStarted({ get_started, login }) {
           borderWidth="2"
           alignSelf={"center"}
           width={"100%"}
-          onPress={login}
+          onPress={() => nav.navigate("Login")}
           _pressed={{ backgroundColor: "gold" }}
         >
           <Heading color="green.700">Login</Heading>

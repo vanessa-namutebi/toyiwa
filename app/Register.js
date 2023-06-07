@@ -24,7 +24,8 @@ import getApi from "./getApi";
 import { useNavigation } from "@react-navigation/native";
 const apiKey = getApi();
 
-function Register({ login }) {
+function Register() {
+  const nav = useNavigation();
   const loggedIn = useSelector((state) => state.login.loggedIn);
 
   //state
@@ -64,7 +65,7 @@ function Register({ login }) {
         setState({ ...state, isSubmmiting: false });
         if (response.data.success === true) {
           showToast(response.data.message, "green.500");
-          login();
+          nav.navigate("Login");
         } else {
           showToast(response.data.message, "red.500");
           setState({ ...state, isSubmmiting: false });
@@ -87,7 +88,7 @@ function Register({ login }) {
   useEffect(() => {
     setTimeout(() => setState({ ...state, showForm: true }), 100);
   }, []);
-  const nav = useNavigation();
+
   return (
     <NativeBaseProvider>
       <StatusBar barStyle={"light-content"} backgroundColor={"green"} />

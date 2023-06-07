@@ -11,6 +11,7 @@ import Profile from "./app/Profile";
 import PickUp from "./app/components/PickUp";
 import Requests from "./app/Requests";
 import Schedule from "./app/components/Schedule";
+import EditProfile from "./app/components/EditProfile";
 import { useSelector } from "react-redux";
 
 export default function App() {
@@ -18,18 +19,11 @@ export default function App() {
 
   //Screens
   const GetStartedScreen = ({ navigation }) => {
-    const nav = useNavigation();
-    return (
-      <GetStarted
-        get_started={() => nav.navigate("Register")}
-        login={() => navigation.navigate("Login")}
-      />
-    );
+    return <GetStarted />;
   };
 
   const RegisterScreen = () => {
-    const nav = useNavigation();
-    return <Register login={() => nav.navigate("Login")} />;
+    return <Register />;
   };
   const LoginScreen = () => {
     return <Login />;
@@ -38,17 +32,10 @@ export default function App() {
     return <Home />;
   };
   const MapScreen = () => {
-    const nav = useNavigation();
     return <Map />;
   };
   const ProfileScreen = () => {
-    const nav = useNavigation();
-    return (
-      <Profile
-        toHome={() => nav.navigate("Get Started")}
-        back_to_top={() => nav.popToTop()}
-      />
-    );
+    return <Profile />;
   };
   const PickUpScreen = () => {
     const nav = useNavigation();
@@ -61,6 +48,10 @@ export default function App() {
   const ScheduleScreen = () => {
     const nav = useNavigation();
     return <Schedule back={() => nav.goBack()} />;
+  };
+
+  const EditProfileScreen = () => {
+    return <EditProfile />;
   };
   const Stack = createStackNavigator();
   return (
@@ -98,6 +89,11 @@ export default function App() {
         <Stack.Screen
           name="Schedule"
           component={ScheduleScreen}
+          options={options}
+        />
+        <Stack.Screen
+          name="Edit Profile"
+          component={EditProfileScreen}
           options={options}
         />
       </Stack.Navigator>
