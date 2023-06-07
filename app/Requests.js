@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { NativeBaseProvider, Heading, StatusBar } from "native-base";
 import { HStack, Icon, ScrollView, Input, Box } from "native-base";
 import { FormControl, VStack, Pressable, Actionsheet } from "native-base";
@@ -18,11 +18,15 @@ const Requests = ({ back }) => {
   const user = useSelector((state) => state.login.user);
   const [err, setErr] = useState("");
 
-  useEffect(async () => {
-    await axios
+  useEffect(() => {
+    axios
       .get(`${apiKey}/pickuprequest/${user._id}`)
-      .then((response) => dispatch(requests(response.data)))
-      .catch((err) => setErr(err.message));
+      .then((response) => {
+        dispatch(requests(response.data));
+      })
+      .catch((err) => {
+        setErr(err.message);
+      });
   }, []);
 
   return (
@@ -104,4 +108,4 @@ const Requests = ({ back }) => {
   );
 };
 
-export default Requests;
+export default memo(Requests);

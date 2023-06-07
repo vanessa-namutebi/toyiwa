@@ -1,8 +1,8 @@
 import React, { useState, useCallback, memo, useEffect } from "react";
 import { StatusBar, Button, FormControl, Input, ScrollView } from "native-base";
 import { Icon, Pressable, Toast, Flex, Spinner, Checkbox } from "native-base";
-import { NativeBaseProvider, Heading, VStack, HStack, Text } from "native-base";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeBaseProvider, Heading, HStack, Text } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -12,6 +12,7 @@ const apiKey = getApi();
 const now = new Date();
 const Schedule = ({ back }) => {
   const user = useSelector((state) => state.login.user);
+  const [detials, setDetails] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [categories, setCategories] = useState([]);
   const [date, setDate] = useState(now);
@@ -20,18 +21,18 @@ const Schedule = ({ back }) => {
   const [location, setLocation] = useState({});
   const [pickerOpen, setOpen] = useState(false);
   const [timeOpen, setTimeOpen] = useState(false);
-
-  const changeDate = (event, selectedDate) => {
+  const [exactTime, setExactTime] = useState("");
+  const changeDate = useCallback((event, selectedDate) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
-    setOpen(!pickerOpen);
-  };
-  const changeTime = (event, selectedTime) => {
-    console.log(selectedTime);
+    setOpen(false);
+  });
+  const changeTime = useCallback((event, selectedTime) => {
     setTime(selectedTime);
-    setTimeOpen(!timeOpen);
-  };
-  const showDatePicker = () => setOpen(!open);
+    setExactTime(selectedTime.toTimeString());
+    setTimeOpen(false);
+  });
+
   handleSchedule = async () => {
     const schedule = {
       user_id: user._id,
@@ -49,7 +50,6 @@ const Schedule = ({ back }) => {
         else showToast(response.data.message, "red.700");
       })
       .catch((err) => {
-        console.log(err.message);
         showToast(err.message, "red.700");
       });
   };
@@ -108,6 +108,24 @@ const Schedule = ({ back }) => {
         </Heading>
       </HStack>
       <ScrollView>
+        {pickerOpen && (
+          <DateTimePicker
+            value={date}
+            onChange={changeDate}
+            mode="date"
+            textColor="#ff5349"
+            positiveButton={{ label: "SET", textColor: "#ff5349" }}
+          />
+        )}
+        {timeOpen && (
+          <DateTimePicker
+            value={time}
+            onChange={changeTime}
+            mode="time"
+            textColor="#ff5349"
+            positiveButton={{ label: "SET", textColor: "#ff5349" }}
+          />
+        )}
         {showForm ? (
           <FormControl>
             <FormControl.Label m={2}>Waste Category</FormControl.Label>
@@ -151,24 +169,7 @@ const Schedule = ({ back }) => {
             <FormControl.Label m={2}>
               Set pick-up date and time
             </FormControl.Label>
-            {pickerOpen && (
-              <DateTimePicker
-                value={date}
-                onChange={changeDate}
-                mode="date"
-                textColor="#ff5349"
-                positiveButton={{ label: "SET", textColor: "#ff5349" }}
-              />
-            )}
-            {timeOpen && (
-              <DateTimePicker
-                value={date}
-                onChange={changeTime}
-                mode="time"
-                textColor="#ff5349"
-                positiveButton={{ label: "SET", textColor: "#ff5349" }}
-              />
-            )}
+
             <HStack width={"100%"}>
               <Input
                 value={date.toDateString()}
@@ -207,7 +208,8 @@ const Schedule = ({ back }) => {
                 }
               />
               <Input
-                value={time.toTimeString()}
+                isReadOnly={true}
+                value={exactTime.substring(0, 5)}
                 keyboardType="numeric"
                 width={"35%"}
                 m={2}

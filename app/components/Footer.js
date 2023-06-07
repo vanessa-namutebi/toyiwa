@@ -24,12 +24,11 @@ const Footer = ({ toHome, toMap, toAccount, selected }) => {
   const nav = useNavigation();
   return (
     <Box
-      flex={1}
-      bg="white"
-      safeAreaTop
       width="100%"
       alignSelf="center"
-      alignItems={"baseline"}
+      position="absolute"
+      bottom={0}
+      shadow={"9"}
     >
       <HStack bg="white" alignItems="center" safeAreaBottom shadow={6}>
         <Pressable
